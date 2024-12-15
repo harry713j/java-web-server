@@ -1,5 +1,7 @@
 package multiThreaded;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -26,7 +28,15 @@ public class Server {
         return (clientSocket) -> {
             try {
                 PrintWriter toClient = new PrintWriter(clientSocket.getOutputStream(), true);
-                toClient.println("Hello from the Server " + clientSocket.getInetAddress());
+
+                try(BufferedReader fromFile = new BufferedReader(new FileReader("c:\\Users\\91859\\Desktop\\Projects\\java-projects\\Java-web-server\\src\\message.txt"));) {
+                    String line;
+                    while ((line = fromFile.readLine()) != null){
+                        toClient.println(line);
+                    }
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
 
                 toClient.close();
             } catch (IOException e) {

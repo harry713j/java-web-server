@@ -22,8 +22,11 @@ public class Client {
                             BufferedReader fromSocket = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                             ){
                         toSocket.println("Hello from client " + socket.getLocalSocketAddress());
-                        String line = fromSocket.readLine();
-                        System.out.println("Response from the server: " + line);
+                        String line;
+                        System.out.println("Response from the server: ");
+                        while ((line = fromSocket.readLine()) != null){
+                            System.out.println(line);
+                        }
                     }catch (IOException ex){
                         ex.printStackTrace();
                     }

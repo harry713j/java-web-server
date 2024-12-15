@@ -1,9 +1,6 @@
 package singleThreaded;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -35,7 +32,15 @@ public class Server {
             PrintWriter toClient = new PrintWriter(acceptedSocket.getOutputStream(), true);
             // Read what is coming from client
             BufferedReader fromClient = new BufferedReader(new InputStreamReader(acceptedSocket.getInputStream()));
-            toClient.println("Hello from the server");
+
+            try(BufferedReader fromFile = new BufferedReader(new FileReader("c:\\Users\\91859\\Desktop\\Projects\\java-projects\\Java-web-server\\src\\message.txt"));) {
+                String line;
+                while ((line = fromFile.readLine()) != null){
+                    toClient.println(line);
+                }
+            }catch (IOException e){
+                e.printStackTrace();
+            }
 
             fromClient.close();
             toClient.close();
